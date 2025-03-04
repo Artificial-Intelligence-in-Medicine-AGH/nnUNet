@@ -51,6 +51,7 @@ class SoftDiceLoss(nn.Module):
             else:
                 dc = dc[:, 1:]
         dc = dc.mean()
+        print("SoftDiceLoss forward")
 
         return -dc
 
