@@ -20,7 +20,7 @@ class DC_and_CE_loss(nn.Module):
         super(DC_and_CE_loss, self).__init__()
 
         print('CE and DC')
-        with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/CE_and_DC.txt") as f:
+        with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/CE_and_DC.txt", "w") as f:
             f.write("here")
 
         if ignore_label is not None:

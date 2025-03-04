@@ -961,7 +961,7 @@ class nnUNetTrainer(object):
         self.print_to_log_file("Training done.")
 
     def on_train_epoch_start(self):
-        with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/on_train_epoch_start.txt", "wa") as f:
+        with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/on_train_epoch_start.txt", "w") as f:
             f.write("here")
         print("Normal print on_train_epoch_start")
         print("print with flush on_train_epoch_start", flush=True)

@@ -270,7 +270,7 @@ def run_training_entry():
 
 
 if __name__ == '__main__':
-    with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/main_main.txt", "wa") as f:
+    with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/main_main.txt", "w") as f:
         f.write("here")
     print("main main")
     print("print with flush main main", flush=True)
