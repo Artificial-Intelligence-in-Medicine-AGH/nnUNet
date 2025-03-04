@@ -270,6 +270,11 @@ def run_training_entry():
 
 
 if __name__ == '__main__':
+    with open("/net/pr2/projects/plgrid/plggaimed/challange_01/nnUNet_results/our_outputs/main_main.txt", "wa") as f:
+        f.write("here")
+    print("main main")
+    print("print with flush main main", flush=True)
+
     os.environ['OMP_NUM_THREADS'] = '1'
     os.environ['MKL_NUM_THREADS'] = '1'
     os.environ['OPENBLAS_NUM_THREADS'] = '1'
