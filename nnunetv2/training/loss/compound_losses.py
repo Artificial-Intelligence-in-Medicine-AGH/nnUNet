@@ -18,6 +18,8 @@ class DC_and_CE_loss(nn.Module):
         :param weight_dice:
         """
         super(DC_and_CE_loss, self).__init__()
+
+        print('CE and DC')
         if ignore_label is not None:
             ce_kwargs['ignore_index'] = ignore_label
 
