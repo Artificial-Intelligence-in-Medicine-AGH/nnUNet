@@ -52,8 +52,8 @@ class SoftDiceLoss(nn.Module):
                 dc = dc[:, 1:]
                 print("SoftDiceLoss in else")
 
+        print(f"SoftDiceLoss forward: {dc.shape=}")
         dc = dc.mean()
-        print("SoftDiceLoss forward")
 
         return -dc
 
