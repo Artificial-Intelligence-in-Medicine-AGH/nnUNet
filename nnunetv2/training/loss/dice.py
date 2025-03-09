@@ -83,6 +83,8 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
                 self.diceWeights = torch.tensor(self.diceWeights, dtype=torch.float)
                 self.diceWeights /= self.diceWeights.sum()  # normalize
 
+                print("Using custom dice weights: ", self.diceWeights)
+
     def forward(self, x, y, loss_mask=None):
         if self.apply_nonlin is not None:
             x = self.apply_nonlin(x)
