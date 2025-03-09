@@ -139,10 +139,8 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
             dc = dc.mean()
         else:
             # Weighted (i.e. 75% of first layer, 25% of second...)
-            print(f"{dc=}")
             # dc = dc.dot(self.diceWeights)  # Throws error: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
             dc = sum([dc[idx] * self.diceWeights[idx].item() for idx in range(len(self.diceWeights))])
-            print(f"AFTER: {dc=}")
 
         return -dc
 
