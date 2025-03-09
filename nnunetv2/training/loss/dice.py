@@ -118,6 +118,8 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
 
         dc = (2 * intersect + self.smooth) / (torch.clip(sum_gt + sum_pred + self.smooth, 1e-8))
 
+        print(f"MemoryEfficientSoftDiceLoss forward: {dc=}")
+
         dc = dc.mean()
         return -dc
 
