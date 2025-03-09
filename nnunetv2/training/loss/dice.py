@@ -138,7 +138,9 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
             dc = dc.mean()
         else:
             # Weighted (i.e. 75% of first layer, 25% of second...)
+            print(f"{dc=}")
             dc = dc.dot(self.diceWeights)
+            print(f"AFTER: {dc=}")
 
         return -dc
 
