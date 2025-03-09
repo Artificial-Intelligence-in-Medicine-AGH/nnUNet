@@ -2,6 +2,7 @@ import json
 import os
 from typing import Callable
 
+import numpy as np
 import torch
 from nnunetv2.utilities.ddp_allgather import AllGatherGrad
 from torch import nn
@@ -80,7 +81,7 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
             with open(custom_dice_filepath) as f:
                 contentStr = f.read()
                 self.diceWeights = json.loads(contentStr)
-                self.diceWeights = torch.tensor(self.diceWeights, dtype=torch.float)
+                self.diceWeights = np.array(self.diceWeights, dtype=float)
                 self.diceWeights /= self.diceWeights.sum()  # normalize
 
                 print("Using custom dice weights: ", self.diceWeights)
@@ -139,7 +140,8 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
         else:
             # Weighted (i.e. 75% of first layer, 25% of second...)
             print(f"{dc=}")
-            dc = dc.dot(self.diceWeights)
+            # dc = dc.dot(self.diceWeights)  # Throws error: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+            dc = sum([dc[idx] * self.diceWeights[idx].item() for idx in range(len(self.diceWeights))])
             print(f"AFTER: {dc=}")
 
         return -dc
