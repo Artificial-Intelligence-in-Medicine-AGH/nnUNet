@@ -1,3 +1,5 @@
+import json
+import os
 from typing import Callable
 
 import torch
@@ -72,6 +74,15 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
         self.smooth = smooth
         self.ddp = ddp
 
+        self.diceWeights = None  # in case the custom_dice file is not defined
+        custom_dice_filepath = os.environ.get("nnUNet_custom_dice")
+        if custom_dice_filepath:
+            with open(custom_dice_filepath) as f:
+                contentStr = f.read()
+                self.diceWeights = json.loads(contentStr)
+                self.diceWeights = torch.tensor(self.diceWeights, dtype=torch.float)
+                self.diceWeights /= self.diceWeights.sum()  # normalize
+
     def forward(self, x, y, loss_mask=None):
         if self.apply_nonlin is not None:
             x = self.apply_nonlin(x)
@@ -118,9 +129,15 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
 
         dc = (2 * intersect + self.smooth) / (torch.clip(sum_gt + sum_pred + self.smooth, 1e-8))
 
-        print(f"MemoryEfficientSoftDiceLoss forward: {dc=}")
+        # print(f"MemoryEfficientSoftDiceLoss forward: {dc=}")
 
-        dc = dc.mean()
+        if self.diceWeights is None:
+            # default
+            dc = dc.mean()
+        else:
+            # Weighted (i.e. 75% of first layer, 25% of second...)
+            dc = dc.dot(self.diceWeights)
+
         return -dc
 
 
