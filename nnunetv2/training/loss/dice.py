@@ -85,6 +85,8 @@ class MemoryEfficientSoftDiceLoss(nn.Module):
                 self.diceWeights /= self.diceWeights.sum()  # normalize
 
                 print("Using custom dice weights: ", self.diceWeights)
+        else:
+            print("Using default dice weights (even distribution)")
 
     def forward(self, x, y, loss_mask=None):
         if self.apply_nonlin is not None:
